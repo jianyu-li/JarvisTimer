@@ -1,0 +1,97 @@
+alias: "Jarvis: Voice Timer Cancel Specific"
+description: Cancel a specific Jarvis timer by number or by label
+triggers:
+  - command:
+      - cancel the timer
+      - cancel the first timer
+      - cancel first timer
+      - cancel the second timer
+      - cancel second timer
+      - cancel the {label} timer
+      - cancel {label} timer
+      - stop the timer
+      - stop first timer
+      - stop second timer
+      - stop the {label} timer
+      - stop {label} timer
+    trigger: conversation
+actions:
+  - alias: Call Gemini to parse cancel intent
+    data:
+      prompt: |
+        The user wants to cancel a timer. Return ONLY this JSON:
+        {
+          "index": 1,
+          "label": "chicken"
+        }
+        • "index" can be 1, 2, etc.; omit it if not said
+        • Omit "label" if not said
+        Input: "{{ trigger.sentence }}"
+    response_variable: jarvis_cancel_response
+    action: google_generative_ai_conversation.generate_content
+  - variables:
+      parsed: >-
+        {% set raw = jarvis_cancel_response %} {% if raw is mapping and raw.text
+        is defined %}
+            {{ raw.text | replace('```json','') | replace('```','') | trim | from_json }}
+        {% elif raw is string %}
+            {{ raw | from_json }}
+        {% else %}
+            {{ raw }}
+        {% endif %}
+      timer1_pairs: >-
+        {% set raw = state_attr('sensor.jarvis_timer', 'sorted_all') %} {% if
+        raw is string %}
+          {{ raw | from_json }}
+        {% elif raw is none %}
+          []
+        {% else %}
+          {{ raw }}
+        {% endif %}
+      timer2_pairs: >-
+        {% set raw = state_attr('sensor.jarvis_timer_2', 'sorted_all') %} {% if
+        raw is string %}
+          {{ raw | from_json }}
+        {% elif raw is none %}
+          []
+        {% else %}
+          {{ raw }}
+        {% endif %}
+      timer1_labels: >-
+        {{ timer1_pairs | map(attribute=1) | map(attribute='timerLabel') | list
+        }}
+      timer2_labels: >-
+        {{ timer2_pairs | map(attribute=1) | map(attribute='timerLabel') | list
+        }}
+      timer1_has_label: |-
+        {{ parsed.label is defined and
+           (parsed.label | lower) in (timer1_labels | map('lower') | list) }}
+      timer2_has_label: |-
+        {{ parsed.label is defined and
+           (parsed.label | lower) in (timer2_labels | map('lower') | list) }}
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ parsed.index | default(0) | int == 1 }}"
+        sequence:
+          - action: script.jarvis_cancel_timer_1
+            data: {}
+      - conditions:
+          - condition: template
+            value_template: "{{ parsed.index | default(0) | int == 2 }}"
+        sequence:
+          - action: script.jarvis_cancel_timer_2
+            data: {}
+      - conditions:
+          - condition: template
+            value_template: "{{ timer1_has_label }}"
+        sequence:
+          - action: script.jarvis_cancel_timer_1
+            data: {}
+      - conditions:
+          - condition: template
+            value_template: "{{ timer2_has_label }}"
+        sequence:
+          - action: script.jarvis_cancel_timer_2
+            data: {}
+mode: single
