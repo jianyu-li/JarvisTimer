@@ -1,0 +1,157 @@
+alias: "Notification: Jarvis Timer Done"
+description: Sends a notification when the Jarvis timer ends, including the label
+triggers:
+  - entity_id:
+      - sensor.jarvis_timer
+    id: timer1
+    to: unknown
+    trigger: state
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 2
+  - entity_id:
+      - sensor.jarvis_timer_2
+    id: timer2
+    to: unknown
+    trigger: state
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 2
+conditions:
+  - condition: not
+    conditions:
+      - condition: state
+        entity_id: input_select.mode
+        state: Night
+  - condition: or
+    conditions:
+      - condition: template
+        value_template: "{{ states('input_text.jarvis_timer_data') not in ['', 'unknown'] }}"
+        alias: Jarvis Data is not blank
+      - condition: template
+        value_template: "{{ states('input_text.jarvis_timer_data_2') not in ['', 'unknown'] }}"
+        alias: Jarvis Data 2 is not blank
+actions:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id:
+              - timer1
+        sequence:
+          - variables:
+              label: |-
+                {{
+                  (states('input_text.jarvis_timer_data') | from_json).timerLabel
+                  if states('input_text.jarvis_timer_data') not in ['', 'unknown']
+                  else 'Your timer'
+                }}
+          - parallel:
+              - action: chime_tts.say
+                metadata: {}
+                target:
+                  entity_id: media_player.kitchen_homepod
+                data:
+                  chime_path: /config/www/sounds/timer_end.wav
+                  language: en-GB
+                  message: "{{ label }} is done."
+                  tts_platform: cloud
+                  voice: EthanNeural
+                  volume_level: 0.75
+              - action: notify.mobile_app_your_iphone
+                data:
+                  data:
+                    push:
+                      sound:
+                        critical: 1
+                        name: wheels_of_time.caf
+                        volume: 0
+                    tag: timer_notification
+                  message: "{{ label }} has ended."
+                  title: Timer Done
+              - action: notify.mobile_app_someoneelses_iphone
+                data:
+                  data:
+                    push:
+                      sound:
+                        critical: 1
+                        name: wheels_of_time.caf
+                        volume: 0
+                    tag: timer_notification
+                  message: "{{ label }} has ended."
+                  title: Timer Done
+          - action: input_text.set_value
+            metadata: {}
+            target:
+              entity_id: input_text.jarvis_timer_data
+            data:
+              value: ""
+      - conditions:
+          - condition: trigger
+            id:
+              - timer2
+        sequence:
+          - variables:
+              label: |-
+                {{
+                  (states('input_text.jarvis_timer_data_2') | from_json).timerLabel
+                  if states('input_text.jarvis_timer_data_2') not in ['', 'unknown']
+                  else 'Your timer'
+                }}
+          - parallel:
+              - action: chime_tts.say
+                metadata: {}
+                target:
+                  entity_id: media_player.kitchen_homepod
+                data:
+                  chime_path: /config/www/sounds/timer_end.wav
+                  language: en-GB
+                  message: "{{ label }} is done."
+                  tts_platform: cloud
+                  voice: EthanNeural
+                  volume_level: 0.75
+              - action: notify.mobile_app_your_iphone
+                data:
+                  data:
+                    push:
+                      sound:
+                        critical: 1
+                        name: wheels_of_time.caf
+                        volume: 0
+                    tag: timer_notification
+                  message: "{{ label }} has ended."
+                  title: Timer Done
+              - action: notify.mobile_app_someoneelses_iphone
+                data:
+                  data:
+                    push:
+                      sound:
+                        critical: 1
+                        name: wheels_of_time.caf
+                        volume: 0
+                    tag: timer_notification
+                  message: "{{ label }} has ended."
+                  title: Timer Done
+          - action: input_text.set_value
+            metadata: {}
+            target:
+              entity_id: input_text.jarvis_timer_data_2
+            data:
+              value: ""
+  - delay:
+      hours: 0
+      minutes: 5
+      seconds: 0
+  - parallel:
+      - action: notify.mobile_app_your_iphone
+        data:
+          message: clear_notification
+          data:
+            tag: timer_notification
+      - action: notify.mobile_app_someoneelses_iphone
+        data:
+          message: clear_notification
+          data:
+            tag: timer_notification
+mode: single
