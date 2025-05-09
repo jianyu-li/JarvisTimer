@@ -61,5 +61,5 @@ Second script: `jarvis_timer_2.py` watches `jarvis_timer_data_2`.
 
 📁 AppDaemon config location:
 ```bash
-/config/apps/jarvis_timer.py
-/config/apps/jarvis_timer_2.py
+/APPDAEMONPARENTFOLDER/apps/jarvis_timer.py
+/APPDAEMONPARENTFOLDER/apps/jarvis_timer_2.py
