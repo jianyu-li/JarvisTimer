@@ -27,7 +27,7 @@ Make sure you have the following set up:
 | Tool | Purpose |
 |------|---------|
 | [Home Assistant](https://www.home-assistant.io/) | Core system |
-| [AppDaemon Add-on](https://community.home-assistant.io/t/appdaemon-add-on/174218) | Python script host |
+| [AppDaemon Add-on](https://github.com/hassio-addons/addon-appdaemon) | Python script host |
 | [Google Generative AI](https://ai.google.dev/) | LLM for voice parsing |
 | [Assist Pipeline](https://www.home-assistant.io/docs/assist/) | Voice command processing |
 | [Alexa Timers Card](https://github.com/Kethlak/card-alexa-alarms-timers) | Countdown display |
