@@ -38,7 +38,7 @@ Make sure you have the following set up:
 
 ### 1. 🧠 Voice Timer Request Automation
 
-Located in `automations.yaml`. This listens for timer commands like:
+Located in `JarvisRequest.yaml`. This listens for timer commands like:
 
 - "Set a 10-minute timer"
 - "Start a pizza timer for 5 minutes"
