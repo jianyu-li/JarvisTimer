@@ -1,0 +1,95 @@
+alias: "Jarvis: Voice Timer Request"
+description: Trigger a timer via voice using Gemini + Assist
+triggers:
+  - command:
+      - set a timer
+      - set a timer for {duration}
+      - start a {duration} timer
+      - set a {duration} timer
+      - start a {label} timer for {duration}
+      - set a {label} timer for {duration}
+      - start a timer for {duration}
+      - start a timer for {duration} for {label}
+      - set a timer for {duration} for {label}
+      - create a {label} timer for {duration}
+      - create a {duration} timer
+      - timer for {duration}
+    trigger: conversation
+actions:
+  - alias: Call Gemini to extract timer info
+    action: google_generative_ai_conversation.generate_content
+    response_variable: jarvis_timer_response
+    data:
+      prompt: |
+        The user wants to set a timer. Return ONLY this JSON:
+        {
+          "minutes": 10,
+          "label": "pizza"
+        }
+
+        Rules:
+        • "an hour" → 60
+        • "half an hour" → 30
+        • "90 seconds" → 2
+        • Round up to the nearest whole minute
+        • Omit "label" if none is said
+
+        Input: "{{ trigger.sentence }}"
+  - alias: Parse JSON
+    variables:
+      parsed: |
+        {{
+          (
+            jarvis_timer_response.text
+            | replace('```json', '')
+            | replace('```', '')
+            | trim
+          ) | from_json
+        }}
+  - alias: Build timer object
+    variables:
+      minutes: "{{ (parsed.minutes | float(0)) | round(0, 'ceil') | int }}"
+      label: |
+        {% if parsed.label is defined and parsed.label | trim != '' %}
+          {{ parsed.label }}
+        {% else %}
+          {{ minutes }} Minute Timer
+        {% endif %}
+      now_ts: "{{ now().timestamp() | int }}"
+      trigger_time: "{{ (now_ts * 1000) + (minutes * 60 * 1000) }}"
+      timer_id: "{{ 'jarvis-' ~ now_ts }}"
+      timer_obj: |
+        {{
+          {
+            "id": timer_id,
+            "status": "ON",
+            "createdDate": now_ts * 1000,
+            "originalDurationInMillis": minutes * 60000,
+            "triggerTime": trigger_time,
+            "remainingTime": minutes * 60000,
+            "timerLabel": label
+          } | tojson
+        }}
+  - alias: Save timer to the appropriate slot
+    choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ states('sensor.jarvis_timer') in ['unknown', 'unavailable'] }}"
+        sequence:
+          - action: input_text.set_value
+            target:
+              entity_id: input_text.jarvis_timer_data
+            data:
+              value: "{{ timer_obj }}"
+      - conditions:
+          - condition: template
+            value_template: >-
+              {{ states('sensor.jarvis_timer_2') in ['unknown', 'unavailable']
+              }}
+        sequence:
+          - action: input_text.set_value
+            target:
+              entity_id: input_text.jarvis_timer_data_2
+            data:
+              value: "{{ timer_obj }}"
+mode: single
