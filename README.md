@@ -30,7 +30,7 @@ Make sure you have the following set up:
 | [AppDaemon Add-on](https://github.com/hassio-addons/addon-appdaemon) | Python script host |
 | [Google Generative AI](https://www.home-assistant.io/integrations/google_generative_ai_conversation/) | LLM for voice parsing |
 | [Alexa Timers Card](https://github.com/Kethlak/card-alexa-alarms-timers) | Countdown display |
-| [chime_tts](https://github.com/nimroddolev/chime_tts) (custom integration) | Optional chime/speech system |
+| [chime_tts](https://github.com/nimroddolev/chime_tts) | Optional chime/speech system |
 
 ---
 
