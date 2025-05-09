@@ -52,7 +52,7 @@ Be sure to have these helpers created and set maximum length to 5000.
 
 ### 2. 🧠 Python: `jarvis_timer.py` (AppDaemon Script)
 
-Watches `input_text.jarvis_timer_data`, calculates remaining time every 10 seconds, and updates `sensor.jarvis_timer` with:
+Watches `input_text.jarvis_timer_data`, calculates remaining time every second, and updates `sensor.jarvis_timer` with:
 
 - `triggerTime`, `remainingTime`
 - `sorted_active`, `sorted_all` (for Alexa card)
