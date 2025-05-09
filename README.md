@@ -46,6 +46,7 @@ Located in `JarvisRequest.yaml`. This listens for timer commands like:
 It sends your sentence to Gemini, parses it into structured JSON, and writes a `timerObj` to the first available timer slot.
 
 📦 **Helpers used:**
+Be sure to have these helpers created and set maximum length to 5000. 
 - `input_text.jarvis_timer_data`
 - `input_text.jarvis_timer_data_2`
 
@@ -58,6 +59,12 @@ Watches `input_text.jarvis_timer_data`, calculates remaining time every 10 secon
 - Human-readable timestamp for visual display
 
 Second script: `jarvis_timer_2.py` watches `jarvis_timer_data_2`.
+
+### 3. Canceling Timers
+Use `CancelSpecificTimer.yaml` (to cancel one of the active timers by name) and `CancelAllTimers.yaml` to cancel all active timers. These basically clear out the data helpers. 
+
+### 4. Timer Done Notification
+`TimerEnd.yaml` will send a notification to your homepod and phones when the timer completes. Be sure to update the actions and entities to match your environment.
 
 📁 AppDaemon config location:
 ```bash
