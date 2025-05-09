@@ -1,6 +1,6 @@
 # ⏱️ Jarvis Smart Timer System (for Home Assistant)
 
-This project enables **fully voice-controlled smart timers** using [Home Assistant](https://www.home-assistant.io/), [[Gemini](https://www.home-assistant.io/integrations/google_generative_ai_conversation/), and [AppDaemon](https://github.com/hassio-addons/addon-appdaemon). It replicates and expands Alexa-style timers with visible countdowns, spoken confirmations, multi-timer support, and mobile notifications.
+This project enables **fully voice-controlled smart timers** using [Home Assistant](https://www.home-assistant.io/), [Gemini](https://www.home-assistant.io/integrations/google_generative_ai_conversation/), and [AppDaemon](https://github.com/hassio-addons/addon-appdaemon). It replicates and expands Alexa-style timers with visible countdowns, spoken confirmations, multi-timer support, and mobile notifications.
 
 ---
 
