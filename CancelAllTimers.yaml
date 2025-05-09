@@ -1,0 +1,21 @@
+alias: "Jarvis: Voice Timer Cancel"
+description: Cancel the current Jarvis timer via voice
+triggers:
+  - command:
+      - cancel timers
+      - stop timers
+      - delete timers
+      - cancel all timers
+      - stop all timers
+      - delete all timers
+    trigger: conversation
+actions:
+  - action: input_text.set_value
+    alias: Clear timer data
+    data:
+      value: ""
+    target:
+      entity_id:
+        - input_text.jarvis_timer_data
+        - input_text.jarvis_timer_data_2
+mode: single
