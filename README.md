@@ -50,6 +50,9 @@ Be sure to have these helpers created and set maximum length to 5000.
 - `input_text.jarvis_timer_data`
 - `input_text.jarvis_timer_data_2`
 
+### OPTIONAL
+Appdaemon initializes the sensors a little late after start up so if you have any helpers that reference these sensors they will break on startup. You can pre-initialize the sensors by adding the sensors.yaml code to your config. 
+
 ### 2. 🧠 Python: `jarvis_timer.py` (AppDaemon Script)
 
 Watches `input_text.jarvis_timer_data`, calculates remaining time every second, and updates `sensor.jarvis_timer` with:
