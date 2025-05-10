@@ -1,0 +1,31 @@
+- platform: template
+  sensors:
+    jarvis_timer:
+      friendly_name: "Jarvis Timer"
+      value_template: "unknown"
+      device_class: timestamp
+      icon_template: "mdi:timer-outline"
+      attribute_templates:
+        status: "OFF"
+        recurrence: "Unknown"
+        total_active: "0"
+        total_all: "0"
+        process_timestamp: "{{ now().isoformat() }}"
+        prior_value: "unknown"
+        sorted_active: "[]"
+        sorted_all: "[]"
+
+    jarvis_timer_2:
+      friendly_name: "Jarvis Timer 2"
+      value_template: "unknown"
+      device_class: timestamp
+      icon_template: "mdi:timer-outline"
+      attribute_templates:
+        status: "OFF"
+        recurrence: "Unknown"
+        total_active: "0"
+        total_all: "0"
+        process_timestamp: "{{ now().isoformat() }}"
+        prior_value: "unknown"
+        sorted_active: "[]"
+        sorted_all: "[]"
