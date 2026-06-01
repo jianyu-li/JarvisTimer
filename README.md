@@ -9,7 +9,7 @@ This project enables **fully voice-controlled smart timers** using [Home Assista
 - ✅ Set timers via voice using natural language
 - ✅ Multiple timers with independent tracking (Timer 1, Timer 2)
 - ✅ Spoken timer confirmations with chimes
-- ✅ Countdown display using [Alexa Timers & Alarms Card](https://github.com/Kethlak/card-alexa-alarms-timers)
+- ✅ Countdown display using [Alexa Timers & Alarms Card](https://github.com/Kethlak/card-alexa-alarms-timers) or [Simple Timer Card](https://github.com/eyalgal/simple-timer-card)
 - ✅ Gemini extracts minutes and optional labels from speech
 - ✅ Mobile push notifications when timers end
 - ✅ Optional label fallback (e.g., “5 Minute Timer”)
@@ -29,11 +29,11 @@ Make sure you have the following set up:
 | [Home Assistant](https://www.home-assistant.io/) | Core system |
 | [AppDaemon Add-on](https://github.com/hassio-addons/addon-appdaemon) | Python script host |
 | [Google Generative AI](https://www.home-assistant.io/integrations/google_generative_ai_conversation/) | LLM for voice parsing |
-| [Alexa Timers Card](https://github.com/Kethlak/card-alexa-alarms-timers) | Countdown display |
+| [Alexa Timers Card](https://github.com/Kethlak/card-alexa-alarms-timers) or [Simple Timer Card](https://github.com/eyalgal/simple-timer-card) | Countdown display |
 | [chime_tts](https://github.com/nimroddolev/chime_tts) | Optional chime/speech system |
 
 > [!WARNING]
-> **Important Version Callout:** This project currently only works with **version 1.3** of the Alexa Timers & Alarms Card. Please ensure you are using [v1.3](https://github.com/Kethlak/card-alexa-alarms-timers/releases/tag/v1.3).
+> **Important Version Callout:** If using the **Alexa Timers & Alarms Card**, this project currently only works with **version 1.3**. Please ensure you are using [v1.3](https://github.com/Kethlak/card-alexa-alarms-timers/releases/tag/v1.3). Alternatively, the project is fully compatible with the [Simple Timer Card](https://github.com/eyalgal/simple-timer-card).
 
 ---
 
