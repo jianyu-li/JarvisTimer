@@ -32,6 +32,9 @@ Make sure you have the following set up:
 | [Alexa Timers Card](https://github.com/Kethlak/card-alexa-alarms-timers) | Countdown display |
 | [chime_tts](https://github.com/nimroddolev/chime_tts) | Optional chime/speech system |
 
+> [!WARNING]
+> **Important Version Callout:** This project currently only works with **version 1.3** of the Alexa Timers & Alarms Card. Please ensure you are using [v1.3](https://github.com/Kethlak/card-alexa-alarms-timers/releases/tag/v1.3).
+
 ---
 
 ## 🛠️ Setup
